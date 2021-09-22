@@ -4,17 +4,6 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 
-class Comments(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    comment = models.TextField(blank=True)
-    ranid = models.CharField(
-        max_length=100, default=uuid.uuid4, editable=False, null=True, blank=True
-    )
-
-    def __str__(self):
-        return str(self.user)
-
-
 class Post(models.Model):
     class PubPostObject(models.Manager):
         def get_queryset(self):
@@ -29,9 +18,6 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=255)
     body = models.TextField(blank=True)
-    # comment = models.ForeignKey(
-    #     Comments, on_delete=models.CASCADE, blank=True, null=True
-    # )
     published = models.DateTimeField(default=timezone.now, editable=False)
     status = models.CharField(max_length=10, choices=options, default='published')
     ranid = models.CharField(
@@ -46,3 +32,19 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.title} | {str(self.author)}'
+
+
+class Comments(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, blank=True)
+    comment = models.TextField(blank=True)
+    ranid = models.CharField(
+        max_length=100, default=uuid.uuid4, editable=False, null=True, blank=True
+    )
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('-date_created',)
+
+    def __str__(self):
+        return f'{str(self.user)} | {self.ranid}'
