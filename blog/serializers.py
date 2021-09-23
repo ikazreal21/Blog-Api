@@ -3,6 +3,14 @@ from .models import *
 
 
 class PostSerializer(serializers.ModelSerializer):
+    comment = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = Post
-        fields = ('id', 'title', 'body', 'status', 'author')
+        fields = ['id', 'title', 'body', 'status', 'author', 'ranid', 'comment']
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comments
+        fields = ['id', 'user', 'comment', 'post', 'ranid']

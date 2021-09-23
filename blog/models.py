@@ -36,7 +36,9 @@ class Post(models.Model):
 
 class Comments(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, blank=True)
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, null=True, blank=True, related_name='comment'
+    )
     comment = models.TextField(blank=True)
     ranid = models.CharField(
         max_length=100, default=uuid.uuid4, editable=False, null=True, blank=True
