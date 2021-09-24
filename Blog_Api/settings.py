@@ -13,6 +13,18 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 from pathlib import Path
 
+# import cloudinary
+# import cloudinary.uploader
+# import cloudinary.api
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+CLOUD_NAME = os.environ.get('CLOUD_NAME')
+API_KEY = os.environ.get('API_KEY')
+API_SECRET = os.environ.get('API_SECRET')
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -39,9 +51,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
     'rest_framework',
     'blog.apps.BlogConfig',
     'corsheaders',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -123,9 +137,24 @@ STATIC_URL = '/static/'
 
 # STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-# MEDIA_URL = "/image/"
+MEDIA_URL = "/media/"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 
 CORS_ALLOWED_ORIGINS = ['https://48m2j.csb.app']
+
+# cloudinary.config(cloud_name=CLOUD_NAME, api_key=API_KEY, api_secret=API_SECRET)
+
+# CLOUDINARY = {'max_length': 200}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': CLOUD_NAME,
+    'API_KEY': API_KEY,
+    'API_SECRET': API_SECRET,
+}
