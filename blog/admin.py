@@ -6,4 +6,3 @@ from .models import *
 
 admin.site.register(Post)
 admin.site.register(Comments)
-admin.site.register(ImageUpload)

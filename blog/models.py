@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from cloudinary.models import CloudinaryField
 
-
 from PIL import Image, ImageOps
 from io import BytesIO
 from django.core.files import File
@@ -26,12 +25,31 @@ class Post(models.Model):
     body = models.TextField(blank=True)
     published = models.DateTimeField(default=timezone.now, editable=False)
     status = models.CharField(max_length=10, choices=options, default='published')
+    # Need to Compress image for Fast Loading
+    image = models.ImageField(upload_to='images/', blank=True, null=True)
     ranid = models.CharField(
         max_length=100, default=uuid.uuid4, editable=False, null=True, blank=True
     )
     objects = models.Manager()
     pubpost = PubPostObject()
     draftpost = DraftPostObject()
+
+    # def save(self, *args, **kwargs):
+    #     instance = super(Post, self).save(*args, **kwargs)
+    #     img = Image.open(instance.image.path)
+    #     img.save(instance.image.path, quality=70, optimize=True)
+    #     return instance
+
+    # def save(self, *args, **kwargs):
+    #     im = Image.open(self.image)
+    #     im = im.convert("RGB")
+    #     im = ImageOps.exif_transpose(im)
+    #     im_io = BytesIO()
+    #     im.save(im_io, "JPEG", quality=70)
+    #     print(self.image)
+    #     new_image = File(im_io, name=self.image)
+    #     self.image = new_image
+    #     super().save(*args, **kwargs)
 
     class Meta:
         ordering = ('-published',)
@@ -56,26 +74,3 @@ class Comments(models.Model):
 
     def __str__(self):
         return f'{str(self.user)} | {self.ranid}'
-
-
-class ImageUpload(models.Model):
-    # user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    # image = CloudinaryField('image')
-    image = models.ImageField(upload_to='images/', blank=True, null=True)
-    # ranid = models.CharField(
-    #     max_length=100, default=uuid.uuid4, editable=False, null=True, blank=True
-    # )
-
-    # need to fix this
-    def save(self, *args, **kwargs):
-        im = Image.open(self.image)
-        im = im.convert("RGB")
-        im = ImageOps.exif_transpose(im)
-        im_io = BytesIO()
-        im.save(im_io, "JPEG", quality=70)
-        new_image = File(im_io, name=self.image)
-        self.image = new_image
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return str(self.image)  # f'{str(self.user)} | {self.ranid}'
