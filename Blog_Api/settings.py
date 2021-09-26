@@ -133,7 +133,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 
-CORS_ALLOWED_ORIGINS = ['https://48m2j.csb.app']
+CORS_ALLOWED_ORIGINS = ['https://48m2j.csb.app', 'http://localhost:3000']
 
 # cloudinary.config(cloud_name=CLOUD_NAME, api_key=API_KEY, api_secret=API_SECRET)
 
