@@ -143,6 +143,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 CORS_ALLOWED_ORIGINS = ['https://48m2j.csb.app', 'http://localhost:3000']
 
+AUTH_USER_MODEL = 'users.CustomUser'
+
 # cloudinary.config(cloud_name=CLOUD_NAME, api_key=API_KEY, api_secret=API_SECRET)
 
 # CLOUDINARY = {'max_length': 200}
