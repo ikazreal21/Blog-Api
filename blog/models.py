@@ -1,8 +1,10 @@
 import uuid
 from django.db import models
-from django.contrib.auth.models import User
+
+# from django.contrib.auth.models import User
 from django.utils import timezone
 from cloudinary.models import CloudinaryField
+from django.conf import settings
 
 
 class Post(models.Model):
@@ -16,7 +18,9 @@ class Post(models.Model):
 
     options = (('draft', 'Draft'), ('published', 'Published'))
 
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True
+    )
     title = models.CharField(max_length=255)
     body = models.TextField(blank=True)
     published = models.DateTimeField(default=timezone.now, editable=False)
@@ -37,7 +41,9 @@ class Post(models.Model):
 
 
 class Comments(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True
+    )
     post = models.ForeignKey(
         Post, on_delete=models.CASCADE, null=True, blank=True, related_name='comment'
     )
