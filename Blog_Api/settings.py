@@ -141,7 +141,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 
-CORS_ALLOWED_ORIGINS = ['https://48m2j.csb.app', 'http://localhost:3000']
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
