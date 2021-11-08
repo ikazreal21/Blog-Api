@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'users.apps.UsersConfig',
     'blog.apps.BlogConfig',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 MIDDLEWARE = [
